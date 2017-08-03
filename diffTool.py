@@ -5,31 +5,50 @@ from openpyxl import Workbook
 from openpyxl.styles import Color, Font, colors
 from openpyxl.styles.colors import RED, DARKYELLOW, BLUE
 
-def changeDir():
-    zone = input("what zone? ")
-    zone = zone.upper()
+test = openpyxl.load_workbook('Z1_TEST.xlsx')
+td = test.get_sheet_by_name('td')
+hive = test.get_sheet_by_name('hive')
+_h = test.get_sheet_by_name('_h')
 
-    dirPath = 'C:/Users/mlgkbart/Desktop/HDP/'
-    os.chdir(dirPath)
-    folder_list = os.listdir(dirPath)
-    for folders, sub_folders, file in os.walk(dirPath):
-        for name in file:
-            if name.endswith(".xlsx") and name.startswith(zone):
-                filename = os.path.join(folders, name)
-                test = openpyxl.load_workbook(filename)
-                ws=test.active
-                print(name)
-
-
-# td = test.get_sheet_by_name('td')
-# hive = test.get_sheet_by_name('hive')
-# _h = test.get_sheet_by_name('_h')
+# def changeDir():
+#     zone = input("what zone? ")
+#     zone = zone.upper()
 #
+#     dirPath = 'C:/Users/mlgkbart/Desktop/HDP/'
+#     os.chdir(dirPath)
+#     folder_list = os.listdir(dirPath)
+#     for folders, sub_folders, file in os.walk(dirPath):
+#         for name in file:
+#             if name.endswith(".xlsx") and name.startswith(zone):
+#                 filename = os.path.join(folders, name)
+                # test = openpyxl.load_workbook(filename)
+#                 ws=test.active
+#                 print(name)
+
+def prettyIter(ws):
+    for row in ws.iter_rows():
+        yield [cell.value for cell in row]
+
+def create_dict():
+
+    #this is retarded
+    tdCompId = prettyIter(td)
+    # hiveCompId = hive['B{}'].value
+    # _hCompId = _h['B{}'].value
+    tdCount = prettyiter(td)
+    # hiveCount = hive['A{}'].value
+    # _hCount = _h['A'].value
+
+    tdThing = {tdCompId:tdCount}
+    # hiveThing = {hiveCompId:hiveCount}
+    # _hThing = {_hCompId:_hCount}
+
+    print(tdThing)
+
+
 # colorMap = {'hive':RED, 'td':DARKYELLOW, '_h':BLUE}
 #
-# def prettyIter(ws):
-#     for row in ws.iter_rows():
-#         yield [cell.value for cell in row]
+
 #
 # def diffTool(sheet1, sheet2, wb): # check if hasSameValues return empty array
 #     results = wb.create_sheet(sheet1.title + "_" + sheet2.title)
@@ -78,9 +97,9 @@ def changeDir():
 #
 #     return output
 #
-#
+
 if __name__ == "__main__":
-    changeDir()
+    create_dict()
 
 
 # results = Workbook()
